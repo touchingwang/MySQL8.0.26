@@ -23,16 +23,6 @@ set FOREIGN_KEY_CHECKS=1;  #在导入后恢复检查外键约束
 
 ## 1. 多表查询分类讲解
 
-### 1) 自连接
-
-题目：查询employees表，返回 <员工 works for 老板>
-
-```mysql
-SELECT CONCAT(worker.last_name , ' works for ', manager.last_name)
-FROM employees worker, employees manager
-WHERE worker.manager_id = manager.employee_id;
-```
-
 ### 2) 内连接与外连接
 
 * 内连接: 合并具有同一列的两个以上的表的行, 结果集中不包含一个表与另一个表不匹配的行 
@@ -41,7 +31,7 @@ WHERE worker.manager_id = manager.employee_id;
 
 ```mysql
 SELECT emp.employee_id, dep.department_name
-FROM employee emp, department dep
+FROM employees emp, departments dep
 WHERE emp.`department_id` = dep.`department_id`;
 ```
 
@@ -49,14 +39,14 @@ WHERE emp.`department_id` = dep.`department_id`;
 
 ```mysql
 SELECT emp.employee_id, dep.department_name
-FROM employee emp JOIN department dep
+FROM employees emp JOIN departments dep
 ON emp.`department_id` = dep.`department_id`;
 ```
 
-* 外连接: 两个表在连接过程中除了返回满足连接条件的行以外还返回左（或右）表中不满足条件的 行 ，这种连接称为左（或右） 外连接。没有匹配的行时, 结果表中相应的列为空(NULL)。 
+* 外连接: 两个表在连接过程中除了返回满足连接条件的行以外还返回左（或右）表中不满足条件的行 ，这种连接称为左（或右） 外连接。没有匹配的行时, 结果表中相应的列为空(NULL)。 
 * 如果是左外连接，则连接条件中左边的表也称为 主表 ，右边的表称为 从表 。 
 
-**LEFT OUTER JOIN**
+**LEFT OUTER JOIN** 也称左连接
 
 ```mysql
 SELECT last_name, department_name
@@ -78,7 +68,7 @@ ON emp.`department_id` = dep.`department_id`;
 
 **合并查询结果** 
 
-利用UNION关键字，可以给出多条SELECT语句，并将它们的结果组合成单个结果集。合并 时，两个表对应的列数和数据类型必须相同，并且相互对应。各个SELECT语句之间使用UNION或UNION ALL关键字分隔。
+利用UNION关键字，可以给出多条SELECT语句，并将它们的结果组合成单个结果集。合并时，两个表对应的列数和数据类型必须相同，并且相互对应。各个SELECT语句之间使用UNION或UNION ALL关键字分隔。
 
 语法格式：
 
@@ -191,7 +181,7 @@ WHERE e.`department_id` IS NULL;
 
 ### 1) 自然连接
 
-SQL99 在 SQL92 的基础上提供了一些特殊语法，比如 NATURAL JOIN 用来表示自然连接。我们可以把 自然连接理解为 SQL92 中的等值连接。它会帮你自动查询两张连接表中 所有相同的字段 ，然后进行 等值 连接 。
+SQL99 在 SQL92 的基础上提供了一些特殊语法，比如 NATURAL JOIN 用来表示自然连接。我们可以把自然连接理解为 SQL92 中的等值连接。它会帮你自动查询两张连接表中 所有相同的字段 ，然后进行 等值 连接 。
 
 在SQL92标准中：
 
